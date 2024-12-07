@@ -8,7 +8,8 @@ namespace Protocols
     {
         private readonly string _ipAddress;
         private readonly int _port;
-        public Tcp_server(string ip,int port){
+        public Tcp_server(string ip, int port)
+        {
             _ipAddress = ip;
             _port = port;
         }
@@ -24,12 +25,16 @@ namespace Protocols
                 _tcpServer.Start();
                 Console.WriteLine($"Server started on {_ipAddress}:{_port}, waiting for client connection...");
 
-                using TcpClient handler = _tcpServer.AcceptTcpClient();
-                Console.WriteLine("Client connected!");
+                while (true)
+                {
+                    using TcpClient handler = _tcpServer.AcceptTcpClient();
+                    Console.WriteLine("Client connected!");
 
-                NetworkStream stream = handler.GetStream();
-                Video_capture_server _serverObj = new Video_capture_server(stream);
-                _serverObj.start_capture();
+                    NetworkStream stream = handler.GetStream();
+                    Video_capture_server _serverObj = new Video_capture_server(stream);
+                    _serverObj.start_capture();
+                }
+
             }
             catch (Exception ex)
             {

@@ -10,7 +10,7 @@ namespace Protocols
         {
             Task.Run(() =>
             {
-                Tcp_server server = new Tcp_server("127.0.0.1",5000);
+                Tcp_server server = new Tcp_server("127.0.0.1", 5000);
                 server.server();
             });
 
@@ -21,6 +21,10 @@ namespace Protocols
 
             Video_capture_client video_client = new Video_capture_client(clientStream);
             video_client.show_captures();
+
+            Console.WriteLine("Press any key to stop...");
+            Console.ReadKey();
+
         }
     }
 }
