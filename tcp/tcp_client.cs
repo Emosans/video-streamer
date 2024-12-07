@@ -4,23 +4,29 @@ using System.Net.Sockets;
 using System.Text;
 
 namespace Protocols{
-    internal static class Tcp_client{
-        public static async void client(){
-            int port = 12345;
-            string ipAddress = "127.0.0.1";
+    public class Tcp_client{
+        private readonly string _ipAddress;
+        private readonly int _port;
+        public Tcp_client(string ipAddress,int port){
+            _ipAddress = ipAddress;
+            _port = port;
 
-            var _ipEndPoint = new IPEndPoint((long)Convert.ToDouble(ipAddress),port);
+        }
+
+        public NetworkStream Connect(){
+            
 
             // create a client
+            var _ipEndPoint = new IPEndPoint(IPAddress.Parse(_ipAddress),_port);
             using TcpClient _tcpClient = new();
-            await _tcpClient.ConnectAsync(_ipEndPoint);
-            await using NetworkStream stream = _tcpClient.GetStream();
+            _tcpClient.Connect(_ipEndPoint);
+            return _tcpClient.GetStream();
 
             // create a buffer to send/recieve a message
-            var buffer = new byte[1024];
-            int recieved = await stream.ReadAsync(buffer);
-            var message = Encoding.UTF8.GetString(buffer, 0, recieved);
-            Console.WriteLine($"Message recieved {message}");
+            // var buffer = new byte[1024];
+            // int recieved = await stream.ReadAsync(buffer);
+            // var message = Encoding.UTF8.GetString(buffer, 0, recieved);
+            // Console.WriteLine($"Message recieved {message}");
 
         }
     }
